@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { CourseImage } from "@/types/course";
+import ImageBlock from "./ImageBlock";
 
 interface KeyWord {
   word: string;
@@ -11,19 +13,36 @@ interface SectionContentProps {
   content: string;
   keyWords: KeyWord[];
   fontSize: number;
+  images?: CourseImage[];
+  dyslexiaMode?: boolean;
 }
 
 export default function SectionContent({
   content,
   keyWords,
   fontSize,
+  images = [],
+  dyslexiaMode = false,
 }: SectionContentProps) {
   const [hoveredWord, setHoveredWord] = useState<string | null>(null);
 
+  const paragraphs = content.split(/\n\n+/);
+
   return (
-    <p className="m-0 text-[#D4CFC8]" style={{ fontSize: `${15 * fontSize}px`, lineHeight: 1.75 }}>
-      {renderWithKeywords(content, keyWords, hoveredWord, setHoveredWord)}
-    </p>
+    <div>
+      {paragraphs.map((para, i) => (
+        <div key={i}>
+          <p className="m-0 mb-4 text-[#D4CFC8]" style={{ fontSize: `${15 * fontSize}px`, lineHeight: 1.75 }}>
+            {renderWithKeywords(para, keyWords, hoveredWord, setHoveredWord)}
+          </p>
+          {images
+            .filter((img) => img.position === `after_paragraph_${i + 1}`)
+            .map((img) => (
+              <ImageBlock key={img.id} image={img} dyslexiaMode={dyslexiaMode} />
+            ))}
+        </div>
+      ))}
+    </div>
   );
 }
 

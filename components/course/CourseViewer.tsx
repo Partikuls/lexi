@@ -9,6 +9,7 @@ import SectionContent from "./SectionContent";
 import DyslexiaContent from "./DyslexiaContent";
 import KeyWords from "./KeyWords";
 import Quiz from "./Quiz";
+import ImageBlock from "./ImageBlock";
 
 interface CourseViewerProps {
   course: CourseJSON;
@@ -135,6 +136,13 @@ export default function CourseViewer({ course }: CourseViewerProps) {
             </div>
           </div>
 
+          {/* Images before content */}
+          {section.images
+            ?.filter((img) => img.position === "before_content")
+            .map((img) => (
+              <ImageBlock key={img.id} image={img} dyslexiaMode={dyslexiaMode} />
+            ))}
+
           {/* Content */}
           <div
             className={`rounded-[14px] p-6 mb-6 ${
@@ -144,15 +152,28 @@ export default function CourseViewer({ course }: CourseViewerProps) {
             }`}
           >
             {dyslexiaMode ? (
-              <DyslexiaContent lines={section.dyslexiaContent} fontSize={fontSize} />
+              <DyslexiaContent
+                lines={section.dyslexiaContent}
+                fontSize={fontSize}
+                images={section.images?.filter((img) => img.position.startsWith("after_paragraph_")) || []}
+              />
             ) : (
               <SectionContent
                 content={section.content}
                 keyWords={section.keyWords}
                 fontSize={fontSize}
+                images={section.images?.filter((img) => img.position.startsWith("after_paragraph_")) || []}
+                dyslexiaMode={false}
               />
             )}
           </div>
+
+          {/* Images after content */}
+          {section.images
+            ?.filter((img) => img.position === "after_content")
+            .map((img) => (
+              <ImageBlock key={img.id} image={img} dyslexiaMode={dyslexiaMode} />
+            ))}
 
           {/* Keywords */}
           <KeyWords
@@ -170,6 +191,7 @@ export default function CourseViewer({ course }: CourseViewerProps) {
             onAnswer={handleQuiz}
             dyslexiaMode={dyslexiaMode}
             fontSize={fontSize}
+            images={section.images?.filter((img) => img.position === "in_quiz") || []}
           />
 
           {/* Navigation */}

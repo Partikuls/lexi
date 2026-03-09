@@ -1,6 +1,7 @@
 "use client";
 
-import { QuizQuestion } from "@/types/course";
+import { QuizQuestion, CourseImage } from "@/types/course";
+import ImageBlock from "./ImageBlock";
 
 interface QuizState {
   answered: boolean;
@@ -15,6 +16,7 @@ interface QuizProps {
   onAnswer: (sectionId: number, questionIdx: number, answerIdx: number) => void;
   dyslexiaMode: boolean;
   fontSize: number;
+  images?: CourseImage[];
 }
 
 export default function Quiz({
@@ -24,6 +26,7 @@ export default function Quiz({
   onAnswer,
   dyslexiaMode,
   fontSize,
+  images = [],
 }: QuizProps) {
   if (questions.length === 0) return null;
 
@@ -48,8 +51,15 @@ export default function Quiz({
       {questions.map((q, qi) => {
         const key = `${sectionId}-${qi}`;
         const st = quizState[key];
+        const questionImage = q.imageRef
+          ? images.find((img) => img.id === q.imageRef)
+          : undefined;
         return (
           <div key={qi} className={qi < questions.length - 1 ? "mb-6" : ""}>
+            {/* EXERCICE image before question */}
+            {questionImage && (
+              <ImageBlock image={questionImage} dyslexiaMode={dyslexiaMode} />
+            )}
             <div
               className="font-semibold mb-3 leading-relaxed"
               style={{
