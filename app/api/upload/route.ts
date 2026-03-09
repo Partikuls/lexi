@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
       subject: "",
       level: "",
       data: {},
+      user_id: auth.user.id,
     });
 
     if (dbError) {

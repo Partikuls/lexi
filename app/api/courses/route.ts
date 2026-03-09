@@ -11,6 +11,7 @@ export async function GET() {
     const { data: courses, error } = await supabase
       .from("courses")
       .select("id, token, title, subject, level, data, created_at")
+      .eq("user_id", auth.user.id)
       .order("created_at", { ascending: false });
 
     if (error) {

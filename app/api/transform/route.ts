@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
           send("status", { step: "complete", message: "Transformation terminée !" });
 
-          // Save to DB if courseId provided
+          // Save to DB if courseId provided (verify ownership)
           let token: string | null = null;
           if (courseId) {
             const supabase = createServiceClient();
@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
                 data: result,
               })
               .eq("id", courseId)
+              .eq("user_id", auth.user.id)
               .select("token")
               .single();
 
