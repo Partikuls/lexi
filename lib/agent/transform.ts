@@ -3,9 +3,11 @@ import { ImageAnalysis } from "./analyzeImage";
 import { buildSystemPrompt } from "./systemPrompt";
 import { CourseJSON } from "@/types/course";
 
-const client = new Anthropic();
-
 const MAX_RETRIES = 2;
+
+function getClient() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
 
 async function callClaude(
   text: string,
@@ -18,7 +20,7 @@ async function callClaude(
     ? `Le JSON précédent était invalide. Erreur : ${correctionHint}\n\nCorrige et renvoie le JSON complet valide pour ce cours :\n\n${text}`
     : `Transforme ce cours en JSON structuré :\n\n${text}`;
 
-  const response = await client.messages.create({
+  const response = await getClient().messages.create({
     model: "claude-sonnet-4-20250514",
     max_tokens: 8192,
     system: systemPrompt,
