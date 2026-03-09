@@ -9,6 +9,8 @@ interface SidebarProps {
   onSectionChange: (index: number) => void;
   dyslexiaMode: boolean;
   fontSize: number;
+  open?: boolean;
+  onClose?: () => void;
 }
 
 export default function Sidebar({
@@ -18,17 +20,38 @@ export default function Sidebar({
   onSectionChange,
   dyslexiaMode,
   fontSize,
+  open,
+  onClose,
 }: SidebarProps) {
   const completedCount = activeSection + 1;
   const totalSections = sections.length;
   const fs = fontSize * (dyslexiaMode ? 1.12 : 1);
 
+  const handleSectionClick = (i: number) => {
+    onSectionChange(i);
+    onClose?.();
+  };
+
   return (
-    <aside
-      className={`w-[240px] shrink-0 p-4 sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto border-r ${
-        dyslexiaMode ? "border-[#F0E6D3]" : "border-[#1E1E28]"
-      }`}
-    >
+    <>
+      {/* Overlay for mobile/tablet drawer */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+      <aside
+        className={`
+          w-[240px] shrink-0 p-4 overflow-y-auto border-r
+          ${dyslexiaMode ? "border-[#F0E6D3]" : "border-[#1E1E28]"}
+          ${dyslexiaMode ? "bg-[#FFF8F0]" : "bg-[#0F0F13]"}
+          fixed top-[60px] h-[calc(100vh-60px)] z-40
+          transition-transform duration-300 ease-in-out
+          ${open ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 lg:sticky lg:z-0
+        `}
+      >
       {/* Progress */}
       <div className="mb-5">
         <div className="text-[10px] font-bold tracking-widest uppercase opacity-40 mb-1.5">
@@ -58,7 +81,7 @@ export default function Sidebar({
       {sections.map((s, i) => (
         <button
           key={s.id}
-          onClick={() => onSectionChange(i)}
+          onClick={() => handleSectionClick(i)}
           className={`w-full text-left py-2 px-2.5 rounded-lg mb-0.5 flex items-center gap-2 border-l-[3px] transition-all ${
             activeSection === i
               ? `${dyslexiaMode ? "bg-[#FFF0D6] text-[#1a1a2e]" : "bg-[#1E1E28] text-[#F0EDE8]"} font-bold`
@@ -100,5 +123,6 @@ export default function Sidebar({
         ))}
       </div>
     </aside>
+    </>
   );
 }

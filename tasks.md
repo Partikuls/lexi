@@ -123,10 +123,14 @@
 
 - [x] Mots-clés surlignés dans le texte standard avec tooltip au hover (définition) — implémenté dans SectionContent.tsx (renderWithKeywords)
 
-### 2.6 Responsive
+### 2.6 Responsive ✅
 
-- [ ] Responsive tablette
-- [ ] Responsive mobile
+- [x] Mobile (< 768px) : sidebar en drawer overlay, bouton menu hamburger, padding réduit, boutons touch 44px min
+- [x] Tablette (768–1024px) : sidebar collapsible via drawer, padding intermédiaire
+- [x] Desktop (> 1024px) : sidebar sticky visible, layout 3-régions actuel
+- [x] Header responsive : texte tronqué, sous-titre masqué sur mobile, bouton dyslexie raccourci
+- [x] Upload page : logo/texte/espacement adaptés mobile
+- [x] Navigation prev/next : min-height 44px touch targets
 
 ### 2.7 Dashboard enseignant
 

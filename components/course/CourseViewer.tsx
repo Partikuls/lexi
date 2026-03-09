@@ -24,6 +24,7 @@ interface QuizState {
 export default function CourseViewer({ course }: CourseViewerProps) {
   const [activeSection, setActiveSection] = useState(0);
   const [quizState, setQuizState] = useState<Record<string, QuizState>>({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { enabled: dyslexiaMode, toggle: toggleDyslexia } = useDyslexiaMode();
   const { size: fontSize, increase, decrease } = useFontSize();
 
@@ -49,28 +50,38 @@ export default function CourseViewer({ course }: CourseViewerProps) {
     <div className={`min-h-screen ${bg} ${textColor} transition-all duration-300`}>
       {/* Header */}
       <header
-        className={`sticky top-0 z-50 px-5 h-[60px] flex items-center justify-between ${
+        className={`sticky top-0 z-50 px-3 md:px-5 h-[60px] flex items-center justify-between ${
           dyslexiaMode
             ? "bg-white border-b-[3px] border-[#FFD166] shadow-sm"
             : "bg-[#1A1A22] border-b border-[#2A2A35] shadow-[0_2px_20px_rgba(0,0,0,0.4)]"
         }`}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 md:gap-2.5">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setSidebarOpen((o) => !o)}
+            className={`lg:hidden w-9 h-9 rounded-lg flex items-center justify-center min-h-[44px] min-w-[44px] ${
+              dyslexiaMode ? "bg-[#F0E6D3] text-[#1a1a2e]" : "bg-[#2A2A35] text-[#F0EDE8]"
+            }`}
+            aria-label="Menu"
+          >
+            <span className="text-base">{sidebarOpen ? "✕" : "☰"}</span>
+          </button>
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#E8521A] to-[#F4A261] flex items-center justify-center text-base font-black text-white">
             L
           </div>
-          <div>
-            <div className="font-bold text-sm">{course.title}</div>
-            <div className="text-[11px] opacity-50">
+          <div className="min-w-0">
+            <div className="font-bold text-sm truncate">{course.title}</div>
+            <div className="text-[11px] opacity-50 hidden sm:block">
               {course.subject} · {course.level} · {course.duration}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 md:gap-2.5">
           <button
             onClick={decrease}
-            className={`px-2.5 py-1 rounded-md text-xs font-bold ${
+            className={`px-2 md:px-2.5 py-1 rounded-md text-xs font-bold min-h-[44px] min-w-[44px] ${
               dyslexiaMode ? "bg-[#F0E6D3] text-[#1a1a2e]" : "bg-[#2A2A35] text-[#F0EDE8]"
             }`}
           >
@@ -78,7 +89,7 @@ export default function CourseViewer({ course }: CourseViewerProps) {
           </button>
           <button
             onClick={increase}
-            className={`px-2.5 py-1 rounded-md text-xs font-bold ${
+            className={`px-2 md:px-2.5 py-1 rounded-md text-xs font-bold min-h-[44px] min-w-[44px] ${
               dyslexiaMode ? "bg-[#F0E6D3] text-[#1a1a2e]" : "bg-[#2A2A35] text-[#F0EDE8]"
             }`}
           >
@@ -86,13 +97,14 @@ export default function CourseViewer({ course }: CourseViewerProps) {
           </button>
           <button
             onClick={toggleDyslexia}
-            className={`px-3.5 py-1.5 rounded-full text-white text-xs font-bold transition-all ${
+            className={`px-2.5 md:px-3.5 py-1.5 rounded-full text-white text-xs font-bold transition-all min-h-[44px] ${
               dyslexiaMode
                 ? "bg-[#059669] shadow-[0_0_12px_rgba(5,150,105,0.35)]"
                 : "bg-[#E8521A] shadow-[0_0_12px_rgba(232,82,26,0.35)]"
             }`}
           >
-            {dyslexiaMode ? "✓ Dyslexie ON" : "◎ Mode dyslexie"}
+            <span className="hidden sm:inline">{dyslexiaMode ? "✓ Dyslexie ON" : "◎ Mode dyslexie"}</span>
+            <span className="sm:hidden">{dyslexiaMode ? "✓ Dys" : "◎ Dys"}</span>
           </button>
         </div>
       </header>
@@ -106,10 +118,12 @@ export default function CourseViewer({ course }: CourseViewerProps) {
           onSectionChange={setActiveSection}
           dyslexiaMode={dyslexiaMode}
           fontSize={fontSize}
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
 
         {/* Main content */}
-        <main className="flex-1 p-7 min-w-0">
+        <main className="flex-1 p-4 md:p-7 min-w-0">
           {/* Section header */}
           <div
             className={`flex items-start gap-3.5 mb-7 pb-5 border-b ${
@@ -145,7 +159,7 @@ export default function CourseViewer({ course }: CourseViewerProps) {
 
           {/* Content */}
           <div
-            className={`rounded-[14px] p-6 mb-6 ${
+            className={`rounded-[14px] p-4 md:p-6 mb-6 ${
               dyslexiaMode
                 ? "bg-white border-2 border-[#F0E6D3] shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
                 : "bg-[#16161E] border border-[#1E1E28]"
@@ -195,11 +209,11 @@ export default function CourseViewer({ course }: CourseViewerProps) {
           />
 
           {/* Navigation */}
-          <div className="flex justify-between mt-7">
+          <div className="flex justify-between mt-7 gap-3">
             <button
               onClick={() => activeSection > 0 && setActiveSection((a) => a - 1)}
               disabled={activeSection === 0}
-              className={`px-5 py-2.5 rounded-lg font-bold text-[13px] transition-all ${
+              className={`px-4 md:px-5 py-3 md:py-2.5 rounded-lg font-bold text-[13px] transition-all min-h-[44px] ${
                 activeSection === 0 ? "opacity-50 cursor-default" : "cursor-pointer"
               } ${dyslexiaMode ? "bg-[#F0E6D3] text-[#1a1a2e]" : "bg-[#2A2A35] text-[#F0EDE8]"}`}
             >
@@ -211,7 +225,7 @@ export default function CourseViewer({ course }: CourseViewerProps) {
                 setActiveSection((a) => a + 1)
               }
               disabled={activeSection === course.sections.length - 1}
-              className={`px-5 py-2.5 rounded-lg font-bold text-[13px] text-white transition-all ${
+              className={`px-4 md:px-5 py-3 md:py-2.5 rounded-lg font-bold text-[13px] text-white transition-all min-h-[44px] ${
                 activeSection === course.sections.length - 1
                   ? "opacity-50 cursor-default"
                   : "cursor-pointer"
