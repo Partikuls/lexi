@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
+      <head>
+        {/* Apply dyslexia class before first paint to prevent flash */}
+        <Script id="dyslexia-flash-prevention" strategy="beforeInteractive">
+          {`try{if(localStorage.getItem('lexi-dyslexia-mode')==='true'){document.documentElement.classList.add('dyslexia')}}catch(e){}`}
+        </Script>
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );

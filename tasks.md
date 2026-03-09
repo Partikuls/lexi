@@ -81,14 +81,15 @@
 
 > Objectif : expérience utilisateur soignée, mode dyslexie avec images parfait.
 
-### 2.1 Composants cours
+### 2.1 Composants cours ✅
 
-- [ ] `components/course/CourseViewer.tsx` : conteneur principal du cours
-- [ ] `components/course/SectionContent.tsx` : contenu texte mode standard
-- [ ] `components/course/DyslexiaContent.tsx` : contenu texte mode dyslexie (lignes alternées colorées)
-- [ ] `components/course/KeyWords.tsx` : affichage mots-clés avec définitions
-- [ ] `components/course/Sidebar.tsx` : navigation sections + progression + objectifs
-- [ ] `components/course/Quiz.tsx` : quiz interactif avec gestion `requiresImage`
+- [x] `components/course/CourseViewer.tsx` : orchestrateur (dyslexia hook, font size, quiz state)
+- [x] `components/course/SectionContent.tsx` : contenu standard avec keyword highlighting + tooltips
+- [x] `components/course/DyslexiaContent.tsx` : lignes alternées colorées (CSS classes .dys-line)
+- [x] `components/course/KeyWords.tsx` : affichage mots-clés en pills
+- [x] `components/course/Sidebar.tsx` : navigation + progression + objectifs
+- [x] `components/course/Quiz.tsx` : quiz interactif avec feedback correct/incorrect
+- [x] `app/course/[token]/page.tsx` : refactoré pour utiliser `<CourseViewer>`
 
 ### 2.2 Composants images
 
@@ -100,14 +101,14 @@
 - [ ] Contour visible autour des images en mode dyslexie (border 3px #FFD166)
 - [ ] Lazy loading systématique des images
 
-### 2.3 Mode dyslexie complet
+### 2.3 Mode dyslexie complet ✅
 
-- [ ] Variables CSS dyslexie : font Trebuchet MS, size 1.12rem, line-height 2.2, letter-spacing 0.07em, word-spacing 0.2em
-- [ ] Background #FFF8F0, lignes alternées (impaires #FFFDF5 + border #FFD166, paires #F5F8FF + border #93C5FD)
-- [ ] Contraste texte minimum 7:1 (WCAG AAA)
-- [ ] `hooks/useDyslexiaMode.ts` : toggle + persistance localStorage
-- [ ] Appliquer le mode avant premier rendu (éviter le flash)
-- [ ] Contrôle taille police (A-/A+)
+- [x] Variables CSS dyslexie : font Trebuchet MS, size 1.12rem, line-height 2.2, letter-spacing 0.07em, word-spacing 0.2em
+- [x] Background #FFF8F0, lignes alternées (impaires #FFFDF5 + border #FFD166, paires #F5F8FF + border #93C5FD)
+- [x] Contraste texte minimum 7:1 (WCAG AAA)
+- [x] `hooks/useDyslexiaMode.ts` : toggle + persistance localStorage + sync DOM class
+- [x] Appliquer le mode avant premier rendu (Script beforeInteractive dans layout.tsx)
+- [x] `hooks/useFontSize.ts` : contrôle taille police (A-/A+, range 0.8–1.4, localStorage)
 
 ### 2.4 Composants upload
 
