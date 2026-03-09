@@ -29,3 +29,54 @@ body {
   color: var(--text-primary);
   background: var(--bg-primary);
 }
+
+/* ── Dyslexia mode (applied on <html class="dyslexia">) ───────────────── */
+
+html.dyslexia body {
+  color: var(--dys-text);
+  background: var(--dys-bg);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+/* Dyslexia line styling */
+.dys-line {
+  padding: 5px 12px;
+  border-radius: 6px;
+  margin-bottom: 3px;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 1.12rem;
+  line-height: 2.2;
+  letter-spacing: 0.07em;
+  word-spacing: 0.2em;
+  color: var(--dys-text);
+}
+
+.dys-line-odd {
+  background: var(--dys-bg-odd);
+  border-left: 3px solid var(--dys-border-odd);
+}
+
+.dys-line-even {
+  background: var(--dys-bg-even);
+  border-left: 3px solid var(--dys-border-even);
+}
+
+/* Dyslexia image border */
+.dys-image-border {
+  border: 3px solid var(--dys-border-odd);
+  border-radius: 8px;
+}
+
+/* Dyslexia mode banner */
+.dys-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: #E8F8F0;
+  font-size: 12px;
+  color: var(--accent-green);
+  font-weight: 700;
+}

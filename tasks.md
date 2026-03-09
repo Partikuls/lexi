@@ -100,14 +100,14 @@
 - [ ] Contour visible autour des images en mode dyslexie (border 3px #FFD166)
 - [ ] Lazy loading systématique des images
 
-### 2.3 Mode dyslexie complet
+### 2.3 Mode dyslexie complet ✅
 
-- [ ] Variables CSS dyslexie : font Trebuchet MS, size 1.12rem, line-height 2.2, letter-spacing 0.07em, word-spacing 0.2em
-- [ ] Background #FFF8F0, lignes alternées (impaires #FFFDF5 + border #FFD166, paires #F5F8FF + border #93C5FD)
-- [ ] Contraste texte minimum 7:1 (WCAG AAA)
-- [ ] `hooks/useDyslexiaMode.ts` : toggle + persistance localStorage
-- [ ] Appliquer le mode avant premier rendu (éviter le flash)
-- [ ] Contrôle taille police (A-/A+)
+- [x] Variables CSS dyslexie : font Trebuchet MS, size 1.12rem, line-height 2.2, letter-spacing 0.07em, word-spacing 0.2em
+- [x] Background #FFF8F0, lignes alternées (impaires #FFFDF5 + border #FFD166, paires #F5F8FF + border #93C5FD)
+- [x] Contraste texte minimum 7:1 (WCAG AAA)
+- [x] `hooks/useDyslexiaMode.ts` : toggle + persistance localStorage + sync DOM class
+- [x] Appliquer le mode avant premier rendu (Script beforeInteractive dans layout.tsx)
+- [x] `hooks/useFontSize.ts` : contrôle taille police (A-/A+, range 0.8–1.4, localStorage)
 
 ### 2.4 Composants upload
 
