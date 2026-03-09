@@ -163,12 +163,12 @@
 - [x] `/api/upload`, `/api/transform`, `/api/courses`, `/api/analyze-images` vérifient la session via `requireAuth()`
 - [x] `requireAuth()` helper retourne 401 JSON si pas de session
 
-### 2.11 Course ownership
+### 2.11 Course ownership ✅
 
-- [ ] `/api/upload` : injecter `user_id` = `auth.uid()` à la création du cours
-- [ ] `/api/courses` : filtrer par `user_id` de la session (chaque enseignant voit ses propres cours)
-- [ ] `/api/transform` : vérifier que le cours appartient à l'utilisateur avant mise à jour
-- [ ] Dashboard affiche uniquement les cours de l'utilisateur connecté
+- [x] `/api/upload` : injecte `user_id` = `auth.user.id` à la création du cours
+- [x] `/api/courses` : filtre par `user_id` de la session (chaque enseignant voit ses propres cours)
+- [x] `/api/transform` : vérifie ownership via `.eq("user_id", auth.user.id)` avant mise à jour
+- [x] Dashboard affiche uniquement les cours de l'utilisateur connecté (via API filtrée)
 
 ---
 
