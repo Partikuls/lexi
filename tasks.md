@@ -132,11 +132,13 @@
 - [x] Upload page : logo/texte/espacement adaptés mobile
 - [x] Navigation prev/next : min-height 44px touch targets
 
-### 2.7 Dashboard enseignant
+### 2.7 Dashboard enseignant ✅
 
-- [ ] `app/dashboard/page.tsx` : liste des cours créés
-- [ ] Stats par cours : nombre d'images détectées par type (illustrative, schéma, exercice)
-- [ ] Lien de partage copiable
+- [x] `app/api/courses/route.ts` : GET — liste des cours avec stats images extraites du JSON
+- [x] `app/dashboard/page.tsx` : grille responsive de cards (1 col mobile, 2 cols tablette+)
+- [x] Stats par cours : nombre d'images par type (illustrative, schéma, exercice) en badges
+- [x] Lien de partage copiable avec feedback "✓ Lien copié !"
+- [x] État vide avec CTA vers upload
 
 ---
 
