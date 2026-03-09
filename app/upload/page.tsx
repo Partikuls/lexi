@@ -1,19 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import DropZone from "@/components/upload/DropZone";
 
 export default function UploadPage() {
   const [inputText, setInputText] = useState("");
-  const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const handleFile = async (file: File) => {
-    setFileName(file.name);
     setError(null);
     setUploading(true);
 
@@ -30,7 +27,6 @@ export default function UploadPage() {
         return;
       }
 
-      // Navigate to processing page with courseId
       router.push(`/processing/${data.courseId}?images=${data.imageCount}&text=${encodeURIComponent(data.text.slice(0, 500))}`);
     } catch {
       setError("Erreur réseau lors de l'upload");
@@ -40,7 +36,6 @@ export default function UploadPage() {
 
   const handleTextSubmit = () => {
     if (!inputText.trim()) return;
-    // For text input, go directly to processing with text as query
     router.push(`/processing/text?text=${encodeURIComponent(inputText)}`);
   };
 
@@ -59,35 +54,7 @@ export default function UploadPage() {
 
       {/* Upload card */}
       <div className="w-full max-w-[640px] bg-[#16161E] rounded-[20px] border border-[#2A2A35] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-        {/* Drop zone */}
-        <div
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={(e) => { e.preventDefault(); setDragOver(false); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }}
-          onClick={() => fileRef.current?.click()}
-          className={`m-6 rounded-xl border-2 border-dashed p-5 flex items-center gap-4 cursor-pointer transition-all ${
-            dragOver ? "border-[#E8521A] bg-[rgba(232,82,26,0.05)]" : "border-[#2A2A35]"
-          }`}
-        >
-          <div className="w-11 h-11 rounded-[10px] bg-[#1E1E28] flex items-center justify-center text-xl shrink-0">
-            {fileName ? "✓" : "📄"}
-          </div>
-          <div>
-            <div className="text-[#F0EDE8] font-semibold text-sm">
-              {fileName || "Glisser un fichier Word / PDF"}
-            </div>
-            <div className="text-[#7C7C8A] text-xs mt-0.5">
-              {fileName ? "Fichier sélectionné" : "ou cliquer pour parcourir"}
-            </div>
-          </div>
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".docx,.pdf"
-            className="hidden"
-            onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); }}
-          />
-        </div>
+        <DropZone onFile={handleFile} uploading={uploading} />
 
         <div className="text-center text-[#4A4A55] text-[13px] -mt-2 mb-2">ou</div>
 

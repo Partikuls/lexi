@@ -91,15 +91,17 @@
 - [x] `components/course/Quiz.tsx` : quiz interactif avec feedback correct/incorrect
 - [x] `app/course/[token]/page.tsx` : refactoré pour utiliser `<CourseViewer>`
 
-### 2.2 Composants images
+### 2.2 Composants images ✅
 
-- [ ] `components/course/ImageBlock.tsx` : affichage images selon type et mode (standard/dyslexie)
-  - [ ] ILLUSTRATIVE : image + alt-text en title (standard) / image + légende courte visible (dyslexie)
-  - [ ] SCHEMA : image + éléments clés en tooltip (standard) / image + légende + keyElements en bullets (dyslexie)
-  - [ ] EXERCICE : image dans le quiz (standard) / image + description alt complète AVANT la question (dyslexie)
-- [ ] `components/course/ImageFallback.tsx` : placeholder si image manquante avec alt-text
-- [ ] Contour visible autour des images en mode dyslexie (border 3px #FFD166)
-- [ ] Lazy loading systématique des images
+- [x] `components/course/ImageBlock.tsx` : affichage images selon type et mode (standard/dyslexie)
+  - [x] ILLUSTRATIVE : image + alt-text en title (standard) / image + légende courte visible (dyslexie)
+  - [x] SCHEMA : image + éléments clés en tooltip (standard) / image + légende + keyElements en bullets (dyslexie)
+  - [x] EXERCICE : image dans le quiz (standard) / image + description alt complète AVANT la question (dyslexie)
+- [x] `components/course/ImageFallback.tsx` : placeholder si image manquante avec alt-text
+- [x] Contour visible autour des images en mode dyslexie (border 3px #FFD166)
+- [x] Lazy loading systématique des images
+- [x] Images `after_paragraph_N` insérées inline dans SectionContent et DyslexiaContent
+- [x] Images EXERCICE liées aux questions quiz via `imageRef`
 
 ### 2.3 Mode dyslexie complet ✅
 
@@ -110,14 +112,16 @@
 - [x] Appliquer le mode avant premier rendu (Script beforeInteractive dans layout.tsx)
 - [x] `hooks/useFontSize.ts` : contrôle taille police (A-/A+, range 0.8–1.4, localStorage)
 
-### 2.4 Composants upload
+### 2.4 Composants upload ✅
 
-- [ ] `components/upload/DropZone.tsx` : drag & drop + sélection fichier
-- [ ] `components/upload/ProcessingSteps.tsx` : étapes animées avec compteur images "Analyse image 2/5..."
+- [x] `components/upload/DropZone.tsx` : drag & drop + sélection fichier
+- [x] `components/upload/ProcessingSteps.tsx` : étapes animées avec compteur images "Analyse image 2/5..."
+- [x] `app/upload/page.tsx` refactoré pour utiliser `<DropZone>`
+- [x] `app/processing/[id]/page.tsx` refactoré pour utiliser `<ProcessingSteps>`
 
-### 2.5 Tooltips mots-clés
+### 2.5 Tooltips mots-clés ✅
 
-- [ ] Mots-clés surlignés dans le texte standard avec tooltip au hover (définition)
+- [x] Mots-clés surlignés dans le texte standard avec tooltip au hover (définition) — implémenté dans SectionContent.tsx (renderWithKeywords)
 
 ### 2.6 Responsive
 
