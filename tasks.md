@@ -161,10 +161,15 @@
 
 - [ ] Export PDF version dyslexie avec images et légendes intégrées
 
-### 3.4 Tests
+### 3.4 Tests ✅
 
-- [ ] Tests unitaires Vitest : validation Zod, parsing, agent
-- [ ] Tests E2E Playwright : pipeline complet upload → cours avec images
+- [x] Tests unitaires Vitest (52 tests, 5 fichiers) :
+  - [x] `validate.test.ts` (22 tests) : CourseJSON, Section, Image, Quiz schemas — valid/invalid inputs, positions, color format, defaults
+  - [x] `parser.test.ts` (8 tests) : isSupportedFile — PDF, DOCX, DOC accepted, others rejected
+  - [x] `analyzeImage.test.ts` (4 tests) : low-res fallback, size sorting, empty input
+  - [x] `storage.test.ts` (13 tests) : MIME validation, file size calculation, storage path generation
+  - [x] `courseStats.test.ts` (5 tests) : image stats extraction from course JSON
+- [ ] Tests E2E Playwright : pipeline complet upload → cours avec images (à faire quand l'app est déployée)
 
 ### 3.5 Optimisations
 
