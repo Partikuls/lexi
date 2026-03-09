@@ -26,11 +26,12 @@
 - [x] Implémenter `lib/parser/index.ts` : router (PDF→LlamaParse, DOCX→LlamaParse+Mammoth fallback)
 - [x] Gérer le cas `[IMAGE_NOT_EXTRACTED]` (images non extractibles)
 
-### 1.4 Stockage images
+### 1.4 Stockage images ✅
 
-- [ ] Implémenter `lib/storage/images.ts` : upload images base64 vers Supabase Storage, retour d'URLs publiques
-- [ ] Valider les types MIME avant stockage (png, jpeg, gif, webp uniquement)
-- [ ] Limiter la taille des fichiers (MAX_FILE_SIZE_MB = 20)
+- [x] Implémenter `lib/storage/images.ts` : upload images base64 vers Supabase Storage, retour d'URLs publiques
+- [x] Valider les types MIME avant stockage (png, jpeg, gif, webp uniquement)
+- [x] Limiter la taille des fichiers (MAX_FILE_SIZE_MB = 20)
+- [x] Conversion automatique en WebP via sharp (sauf GIF)
 
 ### 1.5 Agent IA — Pass 1 (Vision)
 
