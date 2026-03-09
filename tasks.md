@@ -1,0 +1,185 @@
+# Lexi — Plan de développement
+
+## Phase 1 — Foundation (Semaine 1-2)
+
+> Objectif : pipeline bout en bout fonctionnel, images incluses.
+
+### 1.1 Setup projet
+
+- [ ] Init Next.js 14 avec TypeScript, Tailwind CSS, App Router
+- [ ] Installer les dépendances : `@anthropic-ai/sdk`, `@supabase/supabase-js`, `zod`, `mammoth`, `llamaparse`, `sharp`
+- [ ] Configurer `.env.local` (ANTHROPIC_API_KEY, Supabase URL/keys, LlamaParse key, etc.)
+- [ ] Créer la structure de dossiers (`app/`, `components/`, `hooks/`, `lib/`, `types/`)
+- [ ] Configurer Supabase : tables `courses` et `course_images`, bucket Storage `course-images` (public)
+
+### 1.2 Types TypeScript
+
+- [ ] Créer `types/course.ts` avec tous les types centralisés : `ImageType`, `CourseImage`, `QuizQuestion`, `CourseSection`, `CourseJSON`
+
+### 1.3 Parsing documents
+
+- [ ] Implémenter `lib/parser/llamaparse.ts` : extraction texte + images base64 avec positions
+- [ ] Implémenter `lib/parser/docx.ts` : fallback avec mammoth pour les .docx
+- [ ] Implémenter `lib/parser/index.ts` : router vers le bon parser selon le type de fichier
+- [ ] Gérer le cas `[IMAGE_NOT_EXTRACTED]` (images non extractibles)
+
+### 1.4 Stockage images
+
+- [ ] Implémenter `lib/storage/images.ts` : upload images base64 vers Supabase Storage, retour d'URLs publiques
+- [ ] Valider les types MIME avant stockage (png, jpeg, gif, webp uniquement)
+- [ ] Limiter la taille des fichiers (MAX_FILE_SIZE_MB = 20)
+
+### 1.5 Agent IA — Pass 1 (Vision)
+
+- [ ] Implémenter `lib/agent/analyzeImage.ts` : appel Claude Vision par image
+- [ ] System prompt de classification : type (ILLUSTRATIVE/SCHEMA/EXERCICE), alt-text, dyslexiaCaption, keyElements, linkedQuestion
+- [ ] Traitement en batch de 3 images max par appel
+- [ ] Traitement parallèle (`Promise.all`) pour images indépendantes
+- [ ] Prioriser SCHEMA et EXERCICE si timeout
+- [ ] Gérer les images basse résolution (< 100px → ILLUSTRATIVE par défaut)
+
+### 1.6 Agent IA — Pass 2 (Structuration)
+
+- [ ] Implémenter `lib/agent/systemPrompt.ts` : system prompt de structuration pédagogique
+- [ ] Implémenter `lib/agent/transform.ts` : appel Claude avec texte + métadonnées images → JSON structuré
+- [ ] Intégration des images aux bonnes positions dans les sections
+- [ ] Gestion cours longs (> 12 000 tokens) : chunking en 2 passes + merge
+
+### 1.7 Validation
+
+- [ ] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
+- [ ] Retry automatique si JSON invalide (max 2 retries avec prompt de correction)
+
+### 1.8 Supabase client
+
+- [ ] Implémenter `lib/supabase/client.ts` (client browser)
+- [ ] Implémenter `lib/supabase/server.ts` (client serveur)
+
+### 1.9 API Routes
+
+- [ ] `app/api/upload/route.ts` : POST — reçoit fichier, lance parsing LlamaParse, stocke images
+- [ ] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
+- [ ] `app/api/transform/route.ts` : POST — structuration pédagogique globale avec streaming (SSE)
+- [ ] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
+- [ ] `app/api/session/route.ts` : POST — enregistre session de lecture
+
+### 1.10 Pages minimales
+
+- [ ] `app/page.tsx` : Landing page — pitch + CTA upload
+- [ ] `app/upload/page.tsx` : Interface upload (drag & drop + coller texte)
+- [ ] `app/processing/[id]/page.tsx` : étapes animées incluant "Analyse image X/N"
+- [ ] `app/course/[token]/page.tsx` : rendu minimal fonctionnel avec ImageBlock
+
+---
+
+## Phase 2 — UI/UX (Semaine 3)
+
+> Objectif : expérience utilisateur soignée, mode dyslexie avec images parfait.
+
+### 2.1 Composants cours
+
+- [ ] `components/course/CourseViewer.tsx` : conteneur principal du cours
+- [ ] `components/course/SectionContent.tsx` : contenu texte mode standard
+- [ ] `components/course/DyslexiaContent.tsx` : contenu texte mode dyslexie (lignes alternées colorées)
+- [ ] `components/course/KeyWords.tsx` : affichage mots-clés avec définitions
+- [ ] `components/course/Sidebar.tsx` : navigation sections + progression + objectifs
+- [ ] `components/course/Quiz.tsx` : quiz interactif avec gestion `requiresImage`
+
+### 2.2 Composants images
+
+- [ ] `components/course/ImageBlock.tsx` : affichage images selon type et mode (standard/dyslexie)
+  - [ ] ILLUSTRATIVE : image + alt-text en title (standard) / image + légende courte visible (dyslexie)
+  - [ ] SCHEMA : image + éléments clés en tooltip (standard) / image + légende + keyElements en bullets (dyslexie)
+  - [ ] EXERCICE : image dans le quiz (standard) / image + description alt complète AVANT la question (dyslexie)
+- [ ] `components/course/ImageFallback.tsx` : placeholder si image manquante avec alt-text
+- [ ] Contour visible autour des images en mode dyslexie (border 3px #FFD166)
+- [ ] Lazy loading systématique des images
+
+### 2.3 Mode dyslexie complet
+
+- [ ] Variables CSS dyslexie : font Trebuchet MS, size 1.12rem, line-height 2.2, letter-spacing 0.07em, word-spacing 0.2em
+- [ ] Background #FFF8F0, lignes alternées (impaires #FFFDF5 + border #FFD166, paires #F5F8FF + border #93C5FD)
+- [ ] Contraste texte minimum 7:1 (WCAG AAA)
+- [ ] `hooks/useDyslexiaMode.ts` : toggle + persistance localStorage
+- [ ] Appliquer le mode avant premier rendu (éviter le flash)
+- [ ] Contrôle taille police (A-/A+)
+
+### 2.4 Composants upload
+
+- [ ] `components/upload/DropZone.tsx` : drag & drop + sélection fichier
+- [ ] `components/upload/ProcessingSteps.tsx` : étapes animées avec compteur images "Analyse image 2/5..."
+
+### 2.5 Tooltips mots-clés
+
+- [ ] Mots-clés surlignés dans le texte standard avec tooltip au hover (définition)
+
+### 2.6 Responsive
+
+- [ ] Responsive tablette
+- [ ] Responsive mobile
+
+### 2.7 Dashboard enseignant
+
+- [ ] `app/dashboard/page.tsx` : liste des cours créés
+- [ ] Stats par cours : nombre d'images détectées par type (illustrative, schéma, exercice)
+- [ ] Lien de partage copiable
+
+---
+
+## Phase 3 — Analytics & Polish (Semaine 4)
+
+> Objectif : tracking, retours enseignant, tests, optimisations.
+
+### 3.1 Tracking / Analytics
+
+- [ ] Tracker les sections lues par élève
+- [ ] Tracker les images vues et temps passé sur images SCHEMA
+- [ ] Tracker les résultats de quiz (score, temps)
+
+### 3.2 Feedback enseignant
+
+- [ ] Interface feedback sur la qualité de la transformation
+- [ ] Feedback spécifique sur les analyses d'images (classification correcte ? alt-text utile ?)
+
+### 3.3 Export PDF
+
+- [ ] Export PDF version dyslexie avec images et légendes intégrées
+
+### 3.4 Tests
+
+- [ ] Tests unitaires Vitest : validation Zod, parsing, agent
+- [ ] Tests E2E Playwright : pipeline complet upload → cours avec images
+
+### 3.5 Optimisations
+
+- [ ] Cache analyses images (même image dans plusieurs cours → même analyse)
+- [ ] Conversion WebP des images uploadées (via sharp)
+- [ ] Lazy loading images systématique
+- [ ] Streamer la réponse de `/api/transform` vers le client (SSE)
+
+---
+
+## Phase 4 — V1.1 Features (Semaine 5-6)
+
+> Objectif : fonctionnalités avancées post-MVP.
+
+### 4.1 TTS (Text-to-Speech)
+
+- [ ] Intégration ElevenLabs API — voix française
+- [ ] Lecture audio du alt-text des images ("Je vais décrire l'image...")
+- [ ] Descriptions images incluses dans le flux audio
+
+### 4.2 Editeur enseignant
+
+- [ ] L'enseignant peut corriger l'alt-text généré par l'IA
+- [ ] L'enseignant peut corriger la légende dyslexie
+- [ ] Sauvegarde des corrections en BDD
+
+### 4.3 Zoom image
+
+- [ ] Clic sur image → affichage plein écran
+- [ ] Description complète affichée en overlay
+
+### 4.4 Mode présentation
+
+- [ ] Mode vidéoprojecteur : images plein écran avec légende pour projection en classe
