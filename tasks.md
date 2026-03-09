@@ -33,14 +33,14 @@
 - [x] Limiter la taille des fichiers (MAX_FILE_SIZE_MB = 20)
 - [x] Conversion automatique en WebP via sharp (sauf GIF)
 
-### 1.5 Agent IA — Pass 1 (Vision)
+### 1.5 Agent IA — Pass 1 (Vision) ✅
 
-- [ ] Implémenter `lib/agent/analyzeImage.ts` : appel Claude Vision par image
-- [ ] System prompt de classification : type (ILLUSTRATIVE/SCHEMA/EXERCICE), alt-text, dyslexiaCaption, keyElements, linkedQuestion
-- [ ] Traitement en batch de 3 images max par appel
-- [ ] Traitement parallèle (`Promise.all`) pour images indépendantes
-- [ ] Prioriser SCHEMA et EXERCICE si timeout
-- [ ] Gérer les images basse résolution (< 100px → ILLUSTRATIVE par défaut)
+- [x] Implémenter `lib/agent/analyzeImage.ts` : appel Claude Vision par image
+- [x] System prompt de classification : type (ILLUSTRATIVE/SCHEMA/EXERCICE), alt-text, dyslexiaCaption, keyElements, linkedQuestion
+- [x] Traitement en batch de 3 images max (configurable via IMAGE_ANALYSIS_BATCH_SIZE)
+- [x] Traitement parallèle (`Promise.all`) par batch
+- [x] Prioriser les grandes images (tri par taille décroissante)
+- [x] Gérer les images basse résolution (< 100px → ILLUSTRATIVE par défaut)
 
 ### 1.6 Agent IA — Pass 2 (Structuration)
 
