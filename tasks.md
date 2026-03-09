@@ -81,14 +81,15 @@
 
 > Objectif : expérience utilisateur soignée, mode dyslexie avec images parfait.
 
-### 2.1 Composants cours
+### 2.1 Composants cours ✅
 
-- [ ] `components/course/CourseViewer.tsx` : conteneur principal du cours
-- [ ] `components/course/SectionContent.tsx` : contenu texte mode standard
-- [ ] `components/course/DyslexiaContent.tsx` : contenu texte mode dyslexie (lignes alternées colorées)
-- [ ] `components/course/KeyWords.tsx` : affichage mots-clés avec définitions
-- [ ] `components/course/Sidebar.tsx` : navigation sections + progression + objectifs
-- [ ] `components/course/Quiz.tsx` : quiz interactif avec gestion `requiresImage`
+- [x] `components/course/CourseViewer.tsx` : orchestrateur (dyslexia hook, font size, quiz state)
+- [x] `components/course/SectionContent.tsx` : contenu standard avec keyword highlighting + tooltips
+- [x] `components/course/DyslexiaContent.tsx` : lignes alternées colorées (CSS classes .dys-line)
+- [x] `components/course/KeyWords.tsx` : affichage mots-clés en pills
+- [x] `components/course/Sidebar.tsx` : navigation + progression + objectifs
+- [x] `components/course/Quiz.tsx` : quiz interactif avec feedback correct/incorrect
+- [x] `app/course/[token]/page.tsx` : refactoré pour utiliser `<CourseViewer>`
 
 ### 2.2 Composants images
 
