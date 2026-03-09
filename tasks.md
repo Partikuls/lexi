@@ -42,37 +42,38 @@
 - [x] Prioriser les grandes images (tri par taille décroissante)
 - [x] Gérer les images basse résolution (< 100px → ILLUSTRATIVE par défaut)
 
-### 1.6 Agent IA — Pass 2 (Structuration)
+### 1.6 Agent IA — Pass 2 (Structuration) ✅
 
-- [ ] Implémenter `lib/agent/systemPrompt.ts` : system prompt de structuration pédagogique
-- [ ] Implémenter `lib/agent/transform.ts` : appel Claude avec texte + métadonnées images → JSON structuré
-- [ ] Intégration des images aux bonnes positions dans les sections
-- [ ] Gestion cours longs (> 12 000 tokens) : chunking en 2 passes + merge
+- [x] Implémenter `lib/agent/systemPrompt.ts` : system prompt de structuration pédagogique avec contexte images
+- [x] Implémenter `lib/agent/transform.ts` : appel Claude avec texte + métadonnées images → JSON structuré
+- [x] Intégration des images aux bonnes positions dans les sections (mergeImageData)
+- [x] SSE streaming via `transformCourseStream()`
+- [x] Retry automatique si JSON invalide (max 2 retries avec correction hint)
 
-### 1.7 Validation
+### 1.7 Validation ✅
 
-- [ ] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
-- [ ] Retry automatique si JSON invalide (max 2 retries avec prompt de correction)
+- [x] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
+- [x] Retry automatique si JSON invalide (max 2 retries — implémenté dans transform.ts)
 
 ### 1.8 Supabase client ✅
 
 - [x] Implémenter `lib/supabase/client.ts` (client browser avec @supabase/ssr)
 - [x] Implémenter `lib/supabase/server.ts` (client serveur avec service role)
 
-### 1.9 API Routes
+### 1.9 API Routes ✅
 
-- [ ] `app/api/upload/route.ts` : POST — reçoit fichier, lance parsing LlamaParse, stocke images
-- [ ] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
-- [ ] `app/api/transform/route.ts` : POST — structuration pédagogique globale avec streaming (SSE)
-- [ ] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
-- [ ] `app/api/session/route.ts` : POST — enregistre session de lecture
+- [x] `app/api/upload/route.ts` : POST — reçoit fichier, parse, stocke images, crée course draft
+- [x] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
+- [x] `app/api/transform/route.ts` : POST — structuration pédagogique avec SSE streaming
+- [x] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
+- [x] `app/api/session/route.ts` : POST — enregistre session de lecture (logging pour l'instant)
 
-### 1.10 Pages minimales
+### 1.10 Pages minimales ✅
 
-- [ ] `app/page.tsx` : Landing page — pitch + CTA upload
-- [ ] `app/upload/page.tsx` : Interface upload (drag & drop + coller texte)
-- [ ] `app/processing/[id]/page.tsx` : étapes animées incluant "Analyse image X/N"
-- [ ] `app/course/[token]/page.tsx` : rendu minimal fonctionnel avec ImageBlock
+- [x] `app/page.tsx` : Landing page — pitch + CTA upload
+- [x] `app/upload/page.tsx` : Interface upload (drag & drop + coller texte)
+- [x] `app/processing/[id]/page.tsx` : étapes animées avec compteur "Analyse image X/N"
+- [x] `app/course/[token]/page.tsx` : viewer complet (sidebar, contenu, mode dyslexie, quiz)
 
 ---
 
