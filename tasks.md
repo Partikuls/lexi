@@ -50,10 +50,10 @@
 - [x] SSE streaming via `transformCourseStream()`
 - [x] Retry automatique si JSON invalide (max 2 retries avec correction hint)
 
-### 1.7 Validation
+### 1.7 Validation ✅
 
-- [ ] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
-- [ ] Retry automatique si JSON invalide (max 2 retries avec prompt de correction)
+- [x] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
+- [x] Retry automatique si JSON invalide (max 2 retries — implémenté dans transform.ts)
 
 ### 1.8 Supabase client ✅
 
