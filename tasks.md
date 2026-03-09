@@ -68,12 +68,12 @@
 - [x] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
 - [x] `app/api/session/route.ts` : POST — enregistre session de lecture (logging pour l'instant)
 
-### 1.10 Pages minimales
+### 1.10 Pages minimales ✅
 
-- [ ] `app/page.tsx` : Landing page — pitch + CTA upload
-- [ ] `app/upload/page.tsx` : Interface upload (drag & drop + coller texte)
-- [ ] `app/processing/[id]/page.tsx` : étapes animées incluant "Analyse image X/N"
-- [ ] `app/course/[token]/page.tsx` : rendu minimal fonctionnel avec ImageBlock
+- [x] `app/page.tsx` : Landing page — pitch + CTA upload
+- [x] `app/upload/page.tsx` : Interface upload (drag & drop + coller texte)
+- [x] `app/processing/[id]/page.tsx` : étapes animées avec compteur "Analyse image X/N"
+- [x] `app/course/[token]/page.tsx` : viewer complet (sidebar, contenu, mode dyslexie, quiz)
 
 ---
 
