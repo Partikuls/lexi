@@ -60,13 +60,13 @@
 - [x] Implémenter `lib/supabase/client.ts` (client browser avec @supabase/ssr)
 - [x] Implémenter `lib/supabase/server.ts` (client serveur avec service role)
 
-### 1.9 API Routes
+### 1.9 API Routes ✅
 
-- [ ] `app/api/upload/route.ts` : POST — reçoit fichier, lance parsing LlamaParse, stocke images
-- [ ] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
-- [ ] `app/api/transform/route.ts` : POST — structuration pédagogique globale avec streaming (SSE)
-- [ ] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
-- [ ] `app/api/session/route.ts` : POST — enregistre session de lecture
+- [x] `app/api/upload/route.ts` : POST — reçoit fichier, parse, stocke images, crée course draft
+- [x] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
+- [x] `app/api/transform/route.ts` : POST — structuration pédagogique avec SSE streaming
+- [x] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
+- [x] `app/api/session/route.ts` : POST — enregistre session de lecture (logging pour l'instant)
 
 ### 1.10 Pages minimales
 
