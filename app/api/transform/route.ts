@@ -1,10 +1,13 @@
 import { NextRequest } from "next/server";
 import { transformCourse } from "@/lib/agent/transform";
 import { ImageAnalysis } from "@/lib/agent/analyzeImage";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServiceClient, requireAuth } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth();
+    if (auth.error) return auth.error;
+
     const body = await request.json();
     const { text, imageAnalyses, courseId } = body as {
       text: string;
