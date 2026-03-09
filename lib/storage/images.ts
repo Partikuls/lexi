@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { createServerClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { ExtractedImage } from "@/lib/parser/types";
 
 const BUCKET = "course-images";
@@ -40,7 +40,7 @@ export async function uploadImage(
 ): Promise<UploadedImage> {
   validateImage(image);
 
-  const supabase = createServerClient();
+  const supabase = createServiceClient();
   const rawBuffer = Buffer.from(image.base64, "base64");
 
   // Convert to WebP for smaller file sizes (skip if already webp or gif)
