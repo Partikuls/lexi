@@ -42,12 +42,13 @@
 - [x] Prioriser les grandes images (tri par taille décroissante)
 - [x] Gérer les images basse résolution (< 100px → ILLUSTRATIVE par défaut)
 
-### 1.6 Agent IA — Pass 2 (Structuration)
+### 1.6 Agent IA — Pass 2 (Structuration) ✅
 
-- [ ] Implémenter `lib/agent/systemPrompt.ts` : system prompt de structuration pédagogique
-- [ ] Implémenter `lib/agent/transform.ts` : appel Claude avec texte + métadonnées images → JSON structuré
-- [ ] Intégration des images aux bonnes positions dans les sections
-- [ ] Gestion cours longs (> 12 000 tokens) : chunking en 2 passes + merge
+- [x] Implémenter `lib/agent/systemPrompt.ts` : system prompt de structuration pédagogique avec contexte images
+- [x] Implémenter `lib/agent/transform.ts` : appel Claude avec texte + métadonnées images → JSON structuré
+- [x] Intégration des images aux bonnes positions dans les sections (mergeImageData)
+- [x] SSE streaming via `transformCourseStream()`
+- [x] Retry automatique si JSON invalide (max 2 retries avec correction hint)
 
 ### 1.7 Validation
 
