@@ -42,5 +42,28 @@ export async function createAuthClient() {
   );
 }
 
+/**
+ * Require authenticated user in API routes.
+ * Returns user on success, or null + 401 Response on failure.
+ */
+export async function requireAuth(): Promise<
+  { user: { id: string; email?: string }; error: null } | { user: null; error: Response }
+> {
+  const supabase = await createAuthClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      user: null,
+      error: new Response(JSON.stringify({ error: "Non authentifié" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      }),
+    };
+  }
+
+  return { user, error: null };
+}
+
 /** @deprecated Use createServiceClient() or createAuthClient() instead */
 export const createServerClient = createServiceClient;

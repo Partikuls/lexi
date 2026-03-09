@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { analyzeImages } from "@/lib/agent/analyzeImage";
 import { ExtractedImage } from "@/lib/parser/types";
+import { requireAuth } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth();
+    if (auth.error) return auth.error;
+
     const body = await request.json();
     const { images } = body as { images: ExtractedImage[] };
 

@@ -156,12 +156,12 @@
 - [x] Bouton déconnexion dans le header du dashboard
 - [x] Middleware redirige vers `/dashboard` si déjà authentifié sur `/login`
 
-### 2.10 Routes protégées
+### 2.10 Routes protégées ✅
 
-- [ ] Middleware redirige vers `/login` si non authentifié sur : `/upload`, `/dashboard`, `/processing/*`
-- [ ] `/course/[token]` reste public (accès élèves)
-- [ ] `/api/upload`, `/api/transform`, `/api/courses` vérifient la session côté serveur
-- [ ] Retourner 401 si pas de session sur les API protégées
+- [x] Middleware redirige vers `/login` si non authentifié sur : `/upload`, `/dashboard`, `/processing/*` (fait en 2.8)
+- [x] `/course/[token]` reste public (accès élèves) — pas de `requireAuth` ajouté
+- [x] `/api/upload`, `/api/transform`, `/api/courses`, `/api/analyze-images` vérifient la session via `requireAuth()`
+- [x] `requireAuth()` helper retourne 401 JSON si pas de session
 
 ### 2.11 Course ownership
 

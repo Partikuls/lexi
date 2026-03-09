@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseDocument, isSupportedFile } from "@/lib/parser";
 import { uploadImages } from "@/lib/storage/images";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServiceClient, requireAuth } from "@/lib/supabase/server";
 import { randomUUID } from "crypto";
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth();
+    if (auth.error) return auth.error;
+
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 
