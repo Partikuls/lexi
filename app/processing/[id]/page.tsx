@@ -47,7 +47,7 @@ export default function ProcessingPage({
       const res = await fetch("/api/transform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, imageAnalyses: [] }),
+        body: JSON.stringify({ text, imageAnalyses: [], courseId }),
       });
 
       if (!res.ok) {
@@ -77,9 +77,17 @@ export default function ProcessingPage({
               }
             }
             if (line.startsWith("event: result")) {
+              const resultDataLine = lines[lines.indexOf(line) + 1];
+              let courseToken = courseId;
+              if (resultDataLine?.startsWith("data: ")) {
+                try {
+                  const resultData = JSON.parse(resultDataLine.slice(6));
+                  if (resultData.token) courseToken = resultData.token;
+                } catch { /* use courseId fallback */ }
+              }
               setCurrentStep(5);
               await delay(500);
-              router.push(`/course/${courseId}`);
+              router.push(`/course/${courseToken}`);
               return;
             }
             if (line.startsWith("event: error")) {
@@ -93,10 +101,12 @@ export default function ProcessingPage({
         }
       }
 
-      // Fallback: go to course page
+      // Fallback: fetch token and go to course page
       setCurrentStep(5);
       await delay(500);
-      router.push(`/course/${courseId}`);
+      const tokenRes = await fetch(`/api/course-token/${courseId}`);
+      const tokenData = await tokenRes.json().catch(() => ({}));
+      router.push(`/course/${tokenData.token || courseId}`);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Erreur inconnue";
       setError(message);

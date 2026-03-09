@@ -64,8 +64,9 @@
 
 - [x] `app/api/upload/route.ts` : POST — reçoit fichier, parse, stocke images, crée course draft
 - [x] `app/api/analyze-images/route.ts` : POST — analyse chaque image avec Claude Vision (Pass 1)
-- [x] `app/api/transform/route.ts` : POST — structuration pédagogique avec SSE streaming
+- [x] `app/api/transform/route.ts` : POST — structuration pédagogique avec SSE streaming + sauvegarde DB (title, subject, level, data)
 - [x] `app/api/course/[token]/route.ts` : GET — retourne le cours structuré complet
+- [x] `app/api/course-token/[id]/route.ts` : GET — lookup token par UUID (fallback navigation)
 - [x] `app/api/session/route.ts` : POST — enregistre session de lecture (logging pour l'instant)
 
 ### 1.10 Pages minimales ✅
