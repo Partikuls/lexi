@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 interface CourseCard {
   id: string;
@@ -23,6 +25,13 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
 
   useEffect(() => {
     fetch("/api/courses")
@@ -69,12 +78,20 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-          <a
-            href="/upload"
-            className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-[#E8521A] to-[#F4A261] text-white text-sm font-bold min-h-[44px] flex items-center hover:opacity-90 transition-opacity"
-          >
-            + Nouveau cours
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="/upload"
+              className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-[#E8521A] to-[#F4A261] text-white text-sm font-bold min-h-[44px] flex items-center hover:opacity-90 transition-opacity"
+            >
+              + Nouveau cours
+            </a>
+            <button
+              onClick={handleLogout}
+              className="px-3 py-2.5 rounded-lg border border-[#2A2A35] text-[#7C7C8A] text-sm min-h-[44px] flex items-center hover:text-[#F0EDE8] hover:border-[#3A3A45] transition-colors"
+            >
+              Déconnexion
+            </button>
+          </div>
         </div>
 
         {error && (

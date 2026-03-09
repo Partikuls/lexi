@@ -12,10 +12,16 @@ function isProtectedRoute(pathname: string): boolean {
 export async function middleware(request: NextRequest) {
   const { user, response } = await updateSession(request);
 
+  // Redirect unauthenticated users away from protected routes
   if (isProtectedRoute(request.nextUrl.pathname) && !user) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // Redirect authenticated users away from login
+  if (request.nextUrl.pathname === "/login" && user) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return response;

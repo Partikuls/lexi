@@ -148,13 +148,13 @@
 - [x] Créer `middleware.ts` (racine) : refresh session + redirect `/login` si non authentifié sur routes protégées
 - [x] Migrer toutes les API routes vers `createServiceClient()` (backward compat via alias `createServerClient`)
 
-### 2.9 Auth UI — page login
+### 2.9 Auth UI — page login ✅
 
-- [ ] Créer `app/login/page.tsx` : formulaire magic link (email → Supabase `signInWithOtp`)
-- [ ] Message de confirmation après envoi du magic link
-- [ ] `app/auth/callback/route.ts` : route handler pour échanger le code Supabase → session cookie
-- [ ] Bouton logout dans le header/dashboard
-- [ ] Rediriger vers `/dashboard` après login si déjà authentifié
+- [x] `app/login/page.tsx` : formulaire magic link (email → Supabase `signInWithOtp`)
+- [x] Message de confirmation après envoi du magic link (avec option "utiliser une autre adresse")
+- [x] `app/auth/callback/route.ts` : échange code Supabase → session cookie, redirect vers `next` param
+- [x] Bouton déconnexion dans le header du dashboard
+- [x] Middleware redirige vers `/dashboard` si déjà authentifié sur `/login`
 
 ### 2.10 Routes protégées
 
