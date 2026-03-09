@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { transformCourse } from "@/lib/agent/transform";
 import { ImageAnalysis } from "@/lib/agent/analyzeImage";
-import { createServerClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
           // Save to DB if courseId provided
           let token: string | null = null;
           if (courseId) {
-            const supabase = createServerClient();
+            const supabase = createServiceClient();
             const { data: updated, error: dbError } = await supabase
               .from("courses")
               .update({

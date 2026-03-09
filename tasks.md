@@ -141,6 +141,35 @@
 - [x] Lien de partage copiable avec feedback "✓ Lien copié !"
 - [x] État vide avec CTA vers upload
 
+### 2.8 Auth helpers & middleware ✅
+
+- [x] Refactorer `lib/supabase/server.ts` : `createAuthClient()` avec cookies + `createServiceClient()` avec service role
+- [x] Créer `lib/supabase/middleware.ts` : helper `updateSession()` pour refresher la session
+- [x] Créer `middleware.ts` (racine) : refresh session + redirect `/login` si non authentifié sur routes protégées
+- [x] Migrer toutes les API routes vers `createServiceClient()` (backward compat via alias `createServerClient`)
+
+### 2.9 Auth UI — page login
+
+- [ ] Créer `app/login/page.tsx` : formulaire magic link (email → Supabase `signInWithOtp`)
+- [ ] Message de confirmation après envoi du magic link
+- [ ] `app/auth/callback/route.ts` : route handler pour échanger le code Supabase → session cookie
+- [ ] Bouton logout dans le header/dashboard
+- [ ] Rediriger vers `/dashboard` après login si déjà authentifié
+
+### 2.10 Routes protégées
+
+- [ ] Middleware redirige vers `/login` si non authentifié sur : `/upload`, `/dashboard`, `/processing/*`
+- [ ] `/course/[token]` reste public (accès élèves)
+- [ ] `/api/upload`, `/api/transform`, `/api/courses` vérifient la session côté serveur
+- [ ] Retourner 401 si pas de session sur les API protégées
+
+### 2.11 Course ownership
+
+- [ ] `/api/upload` : injecter `user_id` = `auth.uid()` à la création du cours
+- [ ] `/api/courses` : filtrer par `user_id` de la session (chaque enseignant voit ses propres cours)
+- [ ] `/api/transform` : vérifier que le cours appartient à l'utilisateur avant mise à jour
+- [ ] Dashboard affiche uniquement les cours de l'utilisateur connecté
+
 ---
 
 ## Phase 3 — Analytics & Polish (Semaine 4)

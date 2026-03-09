@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseDocument, isSupportedFile } from "@/lib/parser";
 import { uploadImages } from "@/lib/storage/images";
-import { createServerClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { randomUUID } from "crypto";
 
 export async function POST(request: NextRequest) {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     const imageUrls = new Map(uploadedImages.map((img) => [img.id, img.publicUrl]));
 
     // Store course draft in Supabase
-    const supabase = createServerClient();
+    const supabase = createServiceClient();
     const { error: dbError } = await supabase.from("courses").insert({
       id: courseId,
       title: file.name.replace(/\.\w+$/, ""),
