@@ -4,24 +4,27 @@
 
 > Objectif : pipeline bout en bout fonctionnel, images incluses.
 
-### 1.1 Setup projet
+### 1.1 Setup projet ✅
 
-- [ ] Init Next.js 14 avec TypeScript, Tailwind CSS, App Router
-- [ ] Installer les dépendances : `@anthropic-ai/sdk`, `@supabase/supabase-js`, `zod`, `mammoth`, `llamaparse`, `sharp`
-- [ ] Configurer `.env.local` (ANTHROPIC_API_KEY, Supabase URL/keys, LlamaParse key, etc.)
-- [ ] Créer la structure de dossiers (`app/`, `components/`, `hooks/`, `lib/`, `types/`)
-- [ ] Configurer Supabase : tables `courses` et `course_images`, bucket Storage `course-images` (public)
+- [x] Init Next.js 14 avec TypeScript, Tailwind CSS, App Router
+- [x] Installer les dépendances : `@anthropic-ai/sdk`, `@supabase/supabase-js`, `zod`, `mammoth`, `sharp`
+- [x] Configurer `.env.local` (ANTHROPIC_API_KEY, Supabase URL/keys, LlamaParse key, etc.)
+- [x] Créer la structure de dossiers (`app/`, `components/`, `hooks/`, `lib/`, `types/`)
+- [x] Configurer Supabase : SQL migration `lib/supabase/schema.sql` (tables + bucket + RLS)
+- [x] Configurer Vitest + Playwright
+- [x] Landing page placeholder + layout FR + CSS variables
 
-### 1.2 Types TypeScript
+### 1.2 Types TypeScript ✅
 
-- [ ] Créer `types/course.ts` avec tous les types centralisés : `ImageType`, `CourseImage`, `QuizQuestion`, `CourseSection`, `CourseJSON`
+- [x] Créer `types/course.ts` avec tous les types centralisés : `ImageType`, `ImagePosition`, `CourseImage`, `QuizQuestion`, `CourseSection`, `CourseJSON`, `CourseRow`, `CourseImageRow`
 
-### 1.3 Parsing documents
+### 1.3 Parsing documents ✅
 
-- [ ] Implémenter `lib/parser/llamaparse.ts` : extraction texte + images base64 avec positions
-- [ ] Implémenter `lib/parser/docx.ts` : fallback avec mammoth pour les .docx
-- [ ] Implémenter `lib/parser/index.ts` : router vers le bon parser selon le type de fichier
-- [ ] Gérer le cas `[IMAGE_NOT_EXTRACTED]` (images non extractibles)
+- [x] Créer `lib/parser/types.ts` : `ExtractedImage`, `ParseResult`
+- [x] Implémenter `lib/parser/llamaparse.ts` : extraction texte + images base64 via REST API (upload → poll → result)
+- [x] Implémenter `lib/parser/docx.ts` : fallback avec mammoth pour les .docx
+- [x] Implémenter `lib/parser/index.ts` : router (PDF→LlamaParse, DOCX→LlamaParse+Mammoth fallback)
+- [x] Gérer le cas `[IMAGE_NOT_EXTRACTED]` (images non extractibles)
 
 ### 1.4 Stockage images
 
@@ -50,10 +53,10 @@
 - [ ] Implémenter `lib/agent/validate.ts` : schémas Zod pour `CourseJSON`, `CourseSection`, `CourseImage`, `QuizQuestion`
 - [ ] Retry automatique si JSON invalide (max 2 retries avec prompt de correction)
 
-### 1.8 Supabase client
+### 1.8 Supabase client ✅
 
-- [ ] Implémenter `lib/supabase/client.ts` (client browser)
-- [ ] Implémenter `lib/supabase/server.ts` (client serveur)
+- [x] Implémenter `lib/supabase/client.ts` (client browser avec @supabase/ssr)
+- [x] Implémenter `lib/supabase/server.ts` (client serveur avec service role)
 
 ### 1.9 API Routes
 
